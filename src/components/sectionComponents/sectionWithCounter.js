@@ -82,6 +82,45 @@ class SectionWithCounter extends Component {
 		})
 	}
 
+	getMatchWithRedux = () => {
+		this.props.posts.forEach((dataPosts) => {
+				if (dataPosts.section === 'counter1') {
+					let objCounter1 = {
+						title: this.state.changingInput.counter1Title,
+						content: this.state.changingInput.counter1Content
+					}
+					let newObjChangingInput = Object.assign(dataPosts, objCounter1)
+					this.props.requestEditPost(newObjChangingInput)
+				} else if (dataPosts.section === 'counter2') {
+					let objCounter2 = {
+						title: this.state.changingInput.counter2Title,
+						content: this.state.changingInput.counter2Content
+					}
+					let newObjChangingInput = Object.assign(dataPosts, objCounter2)
+					this.props.requestEditPost(newObjChangingInput)
+				} else if (dataPosts.section === 'counter3') {
+					let objCounter3 = {
+						title: this.state.changingInput.counter3Title,
+						content: this.state.changingInput.counter3Content
+					}
+					let newObjChangingInput = Object.assign(dataPosts, objCounter3)
+					this.props.requestEditPost(newObjChangingInput)
+				} else if (dataPosts.section === 'counter4') {
+					let objCounter4 = {
+						title: this.state.changingInput.counter4Title,
+						content: this.state.changingInput.counter4Content
+					}
+					let newObjChangingInput = Object.assign(dataPosts, objCounter4)
+					this.props.requestEditPost(newObjChangingInput)
+				}
+			}
+		)
+	}
+
+	handleSubmit = () => {
+		this.getMatchWithRedux()
+	}
+
   render () {
   	if (this.state.changingInput.counter1Title === '') {
   		return (
@@ -187,7 +226,7 @@ class SectionWithCounter extends Component {
 	      			</Grid.Row>
 	      		</Grid>
 	      	</Form>
-	      	<Button content='Submit' />
+	      	<Button content='Submit' onClick={this.handleSubmit}/>
 	      </div>
     	)
   	}

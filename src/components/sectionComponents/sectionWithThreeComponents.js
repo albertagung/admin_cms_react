@@ -128,6 +128,7 @@ class SectionWithThreeComponent extends Component {
   }
 
   handleSubmit = async () => {
+    console.log(this.state.postFromRedux)
     await this.handleSectionTitleChange()
     await this.setState({loaderSubmit: true})
     setTimeout( async () => {
