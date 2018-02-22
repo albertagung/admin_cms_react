@@ -83,103 +83,114 @@ class SectionWithCounter extends Component {
 	}
 
   render () {
-    return (
-      <div>
-        <h1>Section With Counter</h1>
-        <Segment>
-        	<Grid divided='vertically' style={{'margin': '1em'}}>
-        		<Grid.Row columns={4} style={{'height': '150px'}}>
-        			<Grid.Column>
-        				<h1>{this.state.changingInput.counter1Title}</h1>
-        				<p>{this.state.changingInput.counter1Content}</p>
-        			</Grid.Column>
-        			<Grid.Column>
-        				<h1>{this.state.changingInput.counter2Title}</h1>
-        				<p>{this.state.changingInput.counter2Content}</p>
-        			</Grid.Column>
-        			<Grid.Column>
-        				<h1>{this.state.changingInput.counter3Title}</h1>
-        				<p>{this.state.changingInput.counter3Content}</p>
-        			</Grid.Column>
-        			<Grid.Column>
-        				<h1>{this.state.changingInput.counter4Title}</h1>
-        				<p>{this.state.changingInput.counter4Content}</p>
-        			</Grid.Column>
-        		</Grid.Row>
-        	</Grid>
-        </Segment>
-      	<Form>
-      		<Grid style={{'margin': '1em'}}>
-      			<Grid.Row columns={4} style={{'height': '150px'}}>
-      				<Grid.Column>
-      					<Form.Field 
-      						name='counter1Title'
-		      				control={Input}
-		      				label='Title for Counter 1'
-		      				value={this.state.changingInput.counter1Title}
-		      				onChange={this.handleFormChange}
-		      			/>
-		      			<Form.Field 
-		      				name='counter1Content'
-		      				control={TextArea}
-		      				label='Content for Counter 1'
-		      				value={this.state.changingInput.counter1Content}
-		      				onChange={this.handleFormChange}
-		      			/>
-      				</Grid.Column>
-      				<Grid.Column>
-      					<Form.Field
-      						name='counter2Title' 
-		      				control={Input}
-		      				label='Title for Counter 2'
-		      				value={this.state.changingInput.counter2Title}
-		      				onChange={this.handleFormChange}
-		      			/>
-		      			<Form.Field 
-		      				name='counter2Content'
-		      				control={TextArea}
-		      				label='Content for Counter 2'
-		      				value={this.state.changingInput.counter2Content}
-		      				onChange={this.handleFormChange}
-		      			/>
-      				</Grid.Column>
-      				<Grid.Column>
-      					<Form.Field
-      						name='counter3Title' 
-		      				control={Input}
-		      				label='Title for Counter 3'
-		      				value={this.state.changingInput.counter3Title}
-		      				onChange={this.handleFormChange}
-		      			/>
-		      			<Form.Field
-		      				name='counter3Content' 
-		      				control={TextArea}
-		      				label='Content for Counter 3'
-		      				value={this.state.changingInput.counter3Content}
-		      				onChange={this.handleFormChange}
-		      			/>
-      				</Grid.Column>
-      				<Grid.Column>
-      					<Form.Field
-      						name='counter4Title' 
-		      				control={Input}
-		      				label='Title for Counter 4'
-		      				value={this.state.changingInput.counter4Title}
-		      				onChange={this.handleFormChange}
-		      			/>
-		      			<Form.Field 
-		      				name='counter4Content'
-		      				control={TextArea}
-		      				label='Content for Counter 4'
-		      				value={this.state.changingInput.counter4Content}
-		      				onChange={this.handleFormChange}
-		      			/>
-      				</Grid.Column>
-      			</Grid.Row>
-      		</Grid>
-      	</Form>
-      </div>
-    )
+  	if (this.state.changingInput.counter1Title === '') {
+  		return (
+  			<Segment>
+  				<Dimmer active page>
+  					<Loader>Loading</Loader>
+  				</Dimmer>
+  			</Segment>
+  		)
+  	} else {
+  		return (
+	      <div>
+	        <h1>Section With Counter</h1>
+	        <Segment>
+	        	<Grid divided='vertically' style={{'margin': '1em'}}>
+	        		<Grid.Row columns={4} style={{'height': '100px'}}>
+	        			<Grid.Column>
+	        				<h1>{this.state.changingInput.counter1Title}</h1>
+	        				<p>{this.state.changingInput.counter1Content}</p>
+	        			</Grid.Column>
+	        			<Grid.Column>
+	        				<h1>{this.state.changingInput.counter2Title}</h1>
+	        				<p>{this.state.changingInput.counter2Content}</p>
+	        			</Grid.Column>
+	        			<Grid.Column>
+	        				<h1>{this.state.changingInput.counter3Title}</h1>
+	        				<p>{this.state.changingInput.counter3Content}</p>
+	        			</Grid.Column>
+	        			<Grid.Column>
+	        				<h1>{this.state.changingInput.counter4Title}</h1>
+	        				<p>{this.state.changingInput.counter4Content}</p>
+	        			</Grid.Column>
+	        		</Grid.Row>
+	        	</Grid>
+	        </Segment>
+	      	<Form style={{'paddingBottom': '3em'}}>
+	      		<Grid style={{'margin': '1em'}}>
+	      			<Grid.Row columns={4} style={{'height': '150px'}}>
+	      				<Grid.Column>
+	      					<Form.Field 
+	      						name='counter1Title'
+			      				control={Input}
+			      				label='Title for Counter 1'
+			      				value={this.state.changingInput.counter1Title}
+			      				onChange={this.handleFormChange}
+			      			/>
+			      			<Form.Field 
+			      				name='counter1Content'
+			      				control={TextArea}
+			      				label='Content for Counter 1'
+			      				value={this.state.changingInput.counter1Content}
+			      				onChange={this.handleFormChange}
+			      			/>
+	      				</Grid.Column>
+	      				<Grid.Column>
+	      					<Form.Field
+	      						name='counter2Title' 
+			      				control={Input}
+			      				label='Title for Counter 2'
+			      				value={this.state.changingInput.counter2Title}
+			      				onChange={this.handleFormChange}
+			      			/>
+			      			<Form.Field 
+			      				name='counter2Content'
+			      				control={TextArea}
+			      				label='Content for Counter 2'
+			      				value={this.state.changingInput.counter2Content}
+			      				onChange={this.handleFormChange}
+			      			/>
+	      				</Grid.Column>
+	      				<Grid.Column>
+	      					<Form.Field
+	      						name='counter3Title' 
+			      				control={Input}
+			      				label='Title for Counter 3'
+			      				value={this.state.changingInput.counter3Title}
+			      				onChange={this.handleFormChange}
+			      			/>
+			      			<Form.Field
+			      				name='counter3Content' 
+			      				control={TextArea}
+			      				label='Content for Counter 3'
+			      				value={this.state.changingInput.counter3Content}
+			      				onChange={this.handleFormChange}
+			      			/>
+	      				</Grid.Column>
+	      				<Grid.Column>
+	      					<Form.Field
+	      						name='counter4Title' 
+			      				control={Input}
+			      				label='Title for Counter 4'
+			      				value={this.state.changingInput.counter4Title}
+			      				onChange={this.handleFormChange}
+			      			/>
+			      			<Form.Field 
+			      				name='counter4Content'
+			      				control={TextArea}
+			      				label='Content for Counter 4'
+			      				value={this.state.changingInput.counter4Content}
+			      				onChange={this.handleFormChange}
+			      			/>
+	      				</Grid.Column>
+	      			</Grid.Row>
+	      		</Grid>
+	      	</Form>
+	      	<Button content='Submit' />
+	      </div>
+    	)
+  	}
   }
 }
 
