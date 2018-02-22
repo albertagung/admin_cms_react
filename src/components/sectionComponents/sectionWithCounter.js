@@ -72,6 +72,16 @@ class SectionWithCounter extends Component {
 		}, 2000)
 	}
 
+	handleFormChange = (e, { value }) => {
+		let objFormChange = {
+			[e.target.name]: value
+		}
+		let newObjChangingInput = Object.assign(this.state.changingInput, objFormChange)
+		this.setState({
+			changingInput: newObjChangingInput
+		})
+	}
+
   render () {
     return (
       <div>
@@ -103,50 +113,66 @@ class SectionWithCounter extends Component {
       			<Grid.Row columns={4} style={{'height': '150px'}}>
       				<Grid.Column>
       					<Form.Field 
+      						name='counter1Title'
 		      				control={Input}
 		      				label='Title for Counter 1'
 		      				value={this.state.changingInput.counter1Title}
+		      				onChange={this.handleFormChange}
 		      			/>
 		      			<Form.Field 
+		      				name='counter1Content'
 		      				control={TextArea}
-		      				label='Content for Counter 2'
-		      				value={this.state.changingInput.counter2Content}
+		      				label='Content for Counter 1'
+		      				value={this.state.changingInput.counter1Content}
+		      				onChange={this.handleFormChange}
 		      			/>
       				</Grid.Column>
       				<Grid.Column>
-      					<Form.Field 
+      					<Form.Field
+      						name='counter2Title' 
 		      				control={Input}
 		      				label='Title for Counter 2'
 		      				value={this.state.changingInput.counter2Title}
+		      				onChange={this.handleFormChange}
 		      			/>
 		      			<Form.Field 
+		      				name='counter2Content'
 		      				control={TextArea}
 		      				label='Content for Counter 2'
 		      				value={this.state.changingInput.counter2Content}
+		      				onChange={this.handleFormChange}
 		      			/>
       				</Grid.Column>
       				<Grid.Column>
-      					<Form.Field 
+      					<Form.Field
+      						name='counter3Title' 
 		      				control={Input}
 		      				label='Title for Counter 3'
 		      				value={this.state.changingInput.counter3Title}
+		      				onChange={this.handleFormChange}
 		      			/>
-		      			<Form.Field 
+		      			<Form.Field
+		      				name='counter3Content' 
 		      				control={TextArea}
 		      				label='Content for Counter 3'
 		      				value={this.state.changingInput.counter3Content}
+		      				onChange={this.handleFormChange}
 		      			/>
       				</Grid.Column>
       				<Grid.Column>
-      					<Form.Field 
+      					<Form.Field
+      						name='counter4Title' 
 		      				control={Input}
 		      				label='Title for Counter 4'
 		      				value={this.state.changingInput.counter4Title}
+		      				onChange={this.handleFormChange}
 		      			/>
 		      			<Form.Field 
+		      				name='counter4Content'
 		      				control={TextArea}
 		      				label='Content for Counter 4'
 		      				value={this.state.changingInput.counter4Content}
+		      				onChange={this.handleFormChange}
 		      			/>
       				</Grid.Column>
       			</Grid.Row>
