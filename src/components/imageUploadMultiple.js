@@ -11,7 +11,7 @@ class ImageUploadMultiple extends Component {
     this.state = {
       preview: '',
       file: [],
-      title: `product-${this.props.sendImageDataToUploader._id}`
+      title: this.props.sendImageDataToUploader
     }
   }
 

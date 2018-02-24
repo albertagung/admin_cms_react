@@ -14,6 +14,11 @@ const imageList = (state = initialState, action) => {
         return {
           ...state
         }
+      case 'FETCH_REMOVE_IMAGE':
+        state.images = action.image
+        return {
+          ...state
+        }
     default:
       return state
   }

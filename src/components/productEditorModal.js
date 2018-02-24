@@ -27,6 +27,7 @@ import uuidv4 from 'uuid/v4'
 
 // Multiple Dropzone
 import ImageUploadMultiple from './imageUploadMultiple'
+
 // Edit Product Description Component
 import EditProductDescription from './editProductDescription'
 
@@ -107,7 +108,7 @@ class ProductEditorModal extends Component {
   getImages = async () => {
     // Getting images from database for this product
     let arrImages = []
-    await this.props.fetchImageTitle(this.state.newProduct._id)
+    await this.props.fetchImageTitle(`product-${this.state.newProduct._id}`)
     await this.props.images.forEach((dataImages) => {
       if (dataImages.imageTitle === `product-${this.state.newProduct._id}`) {
         arrImages.push(dataImages)
@@ -449,7 +450,7 @@ class ProductEditorModal extends Component {
                       return (
                         <Segment>
                           <Form.Group>
-                              <ImageUploadMultiple sendImageDataToUploader={this.props.sendProductDataToEditor} />
+                              <ImageUploadMultiple sendImageDataToUploader={`product-${this.props.sendProductDataToEditor._id}`} />
                           </Form.Group>
                         </Segment>
                       )

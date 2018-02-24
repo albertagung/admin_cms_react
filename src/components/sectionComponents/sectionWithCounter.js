@@ -117,8 +117,9 @@ class SectionWithCounter extends Component {
 		)
 	}
 
-	handleSubmit = () => {
-		this.getMatchWithRedux()
+	handleSubmit = async () => {
+		await this.getMatchWithRedux()
+		alert('Saved')
 	}
 
   render () {
