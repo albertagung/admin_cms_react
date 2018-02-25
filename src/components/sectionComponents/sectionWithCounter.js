@@ -5,6 +5,9 @@ import * as postListAction from '../../actions/postAction'
 // Semantic UI
 import { Form, Segment, Button, Grid, Dimmer, Loader, Input, TextArea } from 'semantic-ui-react'
 
+// Riek inline edit
+import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek'
+
 class SectionWithCounter extends Component {
 	constructor (props) {
 		super (props)
@@ -72,13 +75,13 @@ class SectionWithCounter extends Component {
 		}, 2000)
 	}
 
-	handleFormChange = (e, { value }) => {
-		let objFormChange = {
-			[e.target.name]: value
+	handleFormChange = (task) => {
+		let objState = {
+			task
 		}
-		let newObjChangingInput = Object.assign(this.state.changingInput, objFormChange)
+		let objNewState = Object.assign(this.state.changingInput, task)
 		this.setState({
-			changingInput: newObjChangingInput
+			changingInput: objNewState
 		})
 	}
 
@@ -139,94 +142,72 @@ class SectionWithCounter extends Component {
 	        	<Grid divided='vertically' style={{'margin': '1em'}}>
 	        		<Grid.Row columns={4} style={{'height': '100px'}}>
 	        			<Grid.Column>
-	        				<h1>{this.state.changingInput.counter1Title}</h1>
-	        				<p>{this.state.changingInput.counter1Content}</p>
+	        				<h1>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter1Title}
+	        						change={this.handleFormChange}
+	        						propName='counter1Title'
+	        					/>
+	        				</h1>
+	        				<p>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter1Content}
+	        						change={this.handleFormChange}
+	        						propName='counter1Content'
+	        					/>
+	        				</p>
 	        			</Grid.Column>
 	        			<Grid.Column>
-	        				<h1>{this.state.changingInput.counter2Title}</h1>
-	        				<p>{this.state.changingInput.counter2Content}</p>
+	        				<h1>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter2Title}
+	        						change={this.handleFormChange}
+	        						propName='counter2Title'
+	        					/>
+	        				</h1>
+	        				<p>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter2Content}
+	        						change={this.handleFormChange}
+	        						propName='counter2Content'
+	        					/>
+	        				</p>
 	        			</Grid.Column>
 	        			<Grid.Column>
-	        				<h1>{this.state.changingInput.counter3Title}</h1>
-	        				<p>{this.state.changingInput.counter3Content}</p>
+	        				<h1>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter3Title}
+	        						change={this.handleFormChange}
+	        						propName='counter3Title'
+	        					/>
+	        				</h1>
+	        				<p>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter3Content}
+	        						change={this.handleFormChange}
+	        						propName='counter3Content'
+	        					/>
+	        				</p>
 	        			</Grid.Column>
 	        			<Grid.Column>
-	        				<h1>{this.state.changingInput.counter4Title}</h1>
-	        				<p>{this.state.changingInput.counter4Content}</p>
+	        				<h1>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter4Title}
+	        						change={this.handleFormChange}
+	        						propName='counter4Title'
+	        					/>
+	        				</h1>
+	        				<p>
+	        					<RIEInput
+	        						value={this.state.changingInput.counter4Content}
+	        						change={this.handleFormChange}
+	        						propName='counter4Content'
+	        					/>
+	        				</p>
 	        			</Grid.Column>
 	        		</Grid.Row>
 	        	</Grid>
 	        </Segment>
-	      	<Form style={{'paddingBottom': '3em'}}>
-	      		<Grid style={{'margin': '1em'}}>
-	      			<Grid.Row columns={4} style={{'height': '150px'}}>
-	      				<Grid.Column>
-	      					<Form.Field 
-	      						name='counter1Title'
-			      				control={Input}
-			      				label='Title for Counter 1'
-			      				value={this.state.changingInput.counter1Title}
-			      				onChange={this.handleFormChange}
-			      			/>
-			      			<Form.Field 
-			      				name='counter1Content'
-			      				control={TextArea}
-			      				label='Content for Counter 1'
-			      				value={this.state.changingInput.counter1Content}
-			      				onChange={this.handleFormChange}
-			      			/>
-	      				</Grid.Column>
-	      				<Grid.Column>
-	      					<Form.Field
-	      						name='counter2Title' 
-			      				control={Input}
-			      				label='Title for Counter 2'
-			      				value={this.state.changingInput.counter2Title}
-			      				onChange={this.handleFormChange}
-			      			/>
-			      			<Form.Field 
-			      				name='counter2Content'
-			      				control={TextArea}
-			      				label='Content for Counter 2'
-			      				value={this.state.changingInput.counter2Content}
-			      				onChange={this.handleFormChange}
-			      			/>
-	      				</Grid.Column>
-	      				<Grid.Column>
-	      					<Form.Field
-	      						name='counter3Title' 
-			      				control={Input}
-			      				label='Title for Counter 3'
-			      				value={this.state.changingInput.counter3Title}
-			      				onChange={this.handleFormChange}
-			      			/>
-			      			<Form.Field
-			      				name='counter3Content' 
-			      				control={TextArea}
-			      				label='Content for Counter 3'
-			      				value={this.state.changingInput.counter3Content}
-			      				onChange={this.handleFormChange}
-			      			/>
-	      				</Grid.Column>
-	      				<Grid.Column>
-	      					<Form.Field
-	      						name='counter4Title' 
-			      				control={Input}
-			      				label='Title for Counter 4'
-			      				value={this.state.changingInput.counter4Title}
-			      				onChange={this.handleFormChange}
-			      			/>
-			      			<Form.Field 
-			      				name='counter4Content'
-			      				control={TextArea}
-			      				label='Content for Counter 4'
-			      				value={this.state.changingInput.counter4Content}
-			      				onChange={this.handleFormChange}
-			      			/>
-	      				</Grid.Column>
-	      			</Grid.Row>
-	      		</Grid>
-	      	</Form>
 	      	<Button content='Submit' onClick={this.handleSubmit}/>
 	      </div>
     	)

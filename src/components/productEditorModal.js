@@ -19,7 +19,8 @@ import {
   Icon,
   Loader,
   Dimmer,
-  Card
+  Card,
+  Popup
 } from 'semantic-ui-react'
 
 // UUID for product variant
@@ -125,8 +126,15 @@ class ProductEditorModal extends Component {
     )
   }
 
+  handleRemoveImage = async (imageKey) => {
+    await this.props.requestRemoveImage(imageKey)
+    // Re-fetch the images
+    await this.handleSubmitWithNewImage()
+    alert('Image Deleted!')
+  }
+
   handleSubmitWithNewImage = async () => {
-    await this.props.fetchImageTitle(this.state.newProduct._id)
+    await this.props.fetchImageTitle(`product-${this.state.newProduct._id}`)
     let objImage = {images: this.props.images}
     let newObjProduct = Object.assign(this.state.newProduct, objImage)
     this.setState(
@@ -324,8 +332,8 @@ class ProductEditorModal extends Component {
 
   handleSubmit =  async () => {
     await this.handleSubmitWithNewImage()
-    console.log(this.state.newProduct)
-    // this.props.requestEditProduct(this.state.newProduct)
+    // console.log(this.state.newProduct)
+    this.props.requestEditProduct(this.state.newProduct)
   }
 
   getDataFromEditor = (productDescription) => {
@@ -432,7 +440,25 @@ class ProductEditorModal extends Component {
                           <Card.Group itemsPerRow={3}>
                             {images.map((dataImages) => {
                               return (
-                                <Card key={dataImages.imageKey} color='green' image={dataImages.url}/>
+                                <Popup key={dataImages.imageKey}
+                                  trigger={
+                                    <Card  
+                                      color='green' 
+                                      image={dataImages.url} 
+                                      onClick={this.handleClickImage}
+                                    />
+                                  }
+                                  content={
+                                    <Button 
+                                      color='red' 
+                                      content='Remove Image' 
+                                      onClick={() => this.handleRemoveImage(dataImages.imageKey)} 
+                                    />
+                                  }
+                                  on='click'
+                                  position='top right'
+                                  hideOnScroll
+                                />
                               )
                             })}
                           </Card.Group>
@@ -651,7 +677,8 @@ const mapDispatchToProps = (dispatch) => {
       productTypesAction.requestNewProductTypes(productType)
     ),
     // Get images based on product id
-    fetchImageTitle: imageTitle => dispatch (imageListAction.fetchImageTitle(imageTitle))
+    fetchImageTitle: imageTitle => dispatch (imageListAction.fetchImageTitle(imageTitle)),
+    requestRemoveImage: imageKey => dispatch (imageListAction.requestRemoveImage(imageKey))
   }
 }
 

@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone'
 import request from 'superagent'
 
 // Semantic UI
-import { Button, Popup } from 'semantic-ui-react'
+import { Button, Popup, Form, Input } from 'semantic-ui-react'
 
 class ImageUploadMultiple extends Component {
   constructor (props) {
@@ -11,8 +11,16 @@ class ImageUploadMultiple extends Component {
     this.state = {
       preview: '',
       file: [],
-      title: this.props.sendImageDataToUploader
+      title: this.props.sendImageDataToUploader,
+      imageHeader: '',
+      imageDescription: ''
     }
+  }
+
+  handleChangeImageData = (e, { value }) => {
+    this.setState({
+      [e.target.name]: value
+    })
   }
 
   onDrop = (files) => {
@@ -28,7 +36,7 @@ class ImageUploadMultiple extends Component {
     const req = request.post('http://localhost:3025/image_multiple/upload')
     let images = this.state.file
     // Adding extra object to send the imageData
-    req.field('imageData', JSON.stringify(this.state.title))    
+    req.field('imageData', JSON.stringify(this.state))  
     // Attaching image buffer file    
     await images.forEach((dataImages) => {
       req.attach('field_name', dataImages)
@@ -67,7 +75,23 @@ class ImageUploadMultiple extends Component {
     if (this.state.file.length === 0) {
       return (
         <div>
-          <Dropzone onDrop={this.onDrop} multiple={true} style={dropzoneStyle}>
+          <Form.Group widths='equal'>
+            <Form.Field
+              control={Input}
+              name='imageHeader'
+              label='Image Title'
+              onChange={this.handleChangeImageData}
+              value={this.state.imageHeader}
+            />
+            <Form.Field
+              control={Input}
+              name='imageDescription'
+              label='Image Description'
+              onChange={this.handleChangeImageData}
+              value={this.state.imageDescription}
+            />
+          </Form.Group>
+          <Dropzone onDrop={this.onDrop} multiple={false} style={dropzoneStyle}>
             <div style={divStyle}><img style={imgStyle} src={this.state.preview} alt=""/><h3 style={h3Style}>Click / Drop Image Here!</h3></div>
           </Dropzone>
           <Popup trigger={<Button basic color="red" style={buttonStyle}>Upload now!</Button>} content='Please drag / drop some files first' position='bottom center' />
@@ -76,6 +100,22 @@ class ImageUploadMultiple extends Component {
     } else {
       return (
         <div>
+          <Form.Group widths='equal'>
+            <Form.Field
+              control={Input}
+              name='imageHeader'
+              label='Image Title'
+              onChange={this.handleChangeImageData}
+              value={this.state.imageHeader}
+            />
+            <Form.Field
+              control={Input}
+              name='imageDescription'
+              label='Image Description'
+              onChange={this.handleChangeImageData}
+              value={this.state.imageDescription}
+            />
+          </Form.Group>
           <Dropzone onDrop={this.onDrop} multiple={true} style={dropzoneStyle} activeStyle={activeStyle}>
             {this.state.file.map((dataFile) => {
               return (

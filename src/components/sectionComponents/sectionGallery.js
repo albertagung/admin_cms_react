@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as imageListAction from '../../actions/imageAction'
 
 // Semantic UI
-import { Segment, Button, Grid, Image, Reveal, Dimmer } from 'semantic-ui-react'
+import { Segment, Button, Grid, Image, Reveal, Dimmer, Dimmable, Form, Loader } from 'semantic-ui-react'
 
 // Multiple Dropzone
 import ImageUploadMultiple from '../imageUploadMultiple'
@@ -14,21 +14,14 @@ class SectionGallery extends Component {
 	constructor (props) {
 		super (props)
 		this.state = {
-			sectionImages: []
+			isLoaded: false
 		}
 	}
 	
 	getImages = async () => {
-		let sectionImageArr = []
+		// Fetching image by 'sectionGallery' title
 		await this.props.fetchImageTitle('sectionGallery')
-		await this.props.images.forEach((dataImages) => {
-			if (dataImages.imageTitle === 'sectionGallery') {
-				sectionImageArr.push(dataImages)
-			}
-		})
-		this.setState({
-			sectionImages: sectionImageArr
-		})
+		this.setState({isLoaded: true})
 	}
 
 	componentWillMount = () => {
@@ -37,27 +30,74 @@ class SectionGallery extends Component {
 		}, 2000)
 	}
 
+	handleShow = () => {
+		let objDimmer = {
+			active: true
+		}
+		let objState = Object.assign(this.state, objDimmer)
+		this.setState({
+			objState
+		})
+	}
+
+  handleHide = () => {
+  	let objDimmer = {
+			active: false
+		}
+		let objState = Object.assign(this.state, objDimmer)
+		this.setState({
+			objState
+		})
+  }
+
 	render () {
-		return (
-			<div>
-				<Segment>
-					<Grid divided='vertically' style={{'margin': '1em'}}>
-						<Grid.Row columns={4}>
-							{this.state.sectionImages.map((dataImages) => {
-								return (
-									<Grid.Column key={dataImages.imageKey} style={{'padding': '0px', 'margin': '0px'}}>
-										<Image size='medium' src={dataImages.url} />
-									</Grid.Column>
-								)
-							})}
-						</Grid.Row>
-					</Grid>
-				</Segment>
-				<Segment>
-					<ImageUploadMultiple sendImageDataToUploader={'sectionGallery'} />
-				</Segment>
-			</div>
-		)
+		const { active } = this.state
+		if (this.state.isLoaded === false) {
+			return (
+  			<Segment>
+  				<Dimmer active page>
+  					<Loader>Loading</Loader>
+  				</Dimmer>
+  			</Segment>
+  		)
+		} else {
+			return (
+				<div>
+					<Segment>
+						<Grid divided='vertically' style={{'margin': '1em'}}>
+							<Grid.Row columns={4}>
+								{this.props.images.map((dataImages) => {
+									const content = (
+										<div>
+											<h6>{dataImages.imageHeader}</h6>
+											<p>{dataImages.imageDescription}</p>
+										</div>
+									)
+									return (
+										<Grid.Column key={dataImages.imageKey} style={{'padding': '0px', 'margin': '0px'}}>
+											<Dimmer.Dimmable
+								        as={Image}
+								        dimmed={active}
+								        dimmer={{ active, content }}
+								        onMouseEnter={this.handleShow}
+								        onMouseLeave={this.handleHide}
+								        size='medium'
+								        src={dataImages.url}
+								      />
+										</Grid.Column>
+									)
+								})}
+							</Grid.Row>
+						</Grid>
+					</Segment>
+					<Segment>
+						<Form>
+							<ImageUploadMultiple sendImageDataToUploader={'sectionGallery'} />
+						</Form>
+					</Segment>
+				</div>
+			)
+		}
 	}
 
 }
