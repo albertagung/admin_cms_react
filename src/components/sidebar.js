@@ -12,6 +12,7 @@ import Section from './section.js'
 import SectionWithThreeComponents from './sectionComponents/sectionWithThreeComponents'
 import SectionWithCounter from './sectionComponents/sectionWithCounter'
 import SectionGallery from './sectionComponents/sectionGallery'
+import MainPage from './mainPageComponents/mainPage'
 
 class Sidebar extends Component {
   constructor (props) {
@@ -96,6 +97,11 @@ class Sidebar extends Component {
                             Section Gallery
                           </Menu.Item>
                         </Menu.Menu>
+                        <Menu.Menu>
+                          <Menu.Item name='main_page' active={activeItem === 'main_page'} onClick={this.handleMenuClick} as={Link} to='/main_page'>
+                            Main Page
+                          </Menu.Item>
+                        </Menu.Menu>
                       </Menu.Item>
                     </Menu>
                   </Grid.Column>
@@ -112,6 +118,7 @@ class Sidebar extends Component {
                     <Route exact path='/why_choose_us' component={SectionWithThreeComponents}></Route>
                     <Route exact path='/section_with_counter' component={SectionWithCounter}></Route>
                     <Route exact path='/section_gallery' component={SectionGallery}></Route>
+                    <Route exact path='/main_page' component={MainPage}></Route>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>

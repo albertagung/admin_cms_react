@@ -72,13 +72,10 @@ class SectionWithCounter extends Component {
 	componentWillMount = () => {
 		setTimeout(() => {
 			this.getContent()
-		}, 2000)
+		}, 1000)
 	}
 
 	handleFormChange = (task) => {
-		let objState = {
-			task
-		}
 		let objNewState = Object.assign(this.state.changingInput, task)
 		this.setState({
 			changingInput: objNewState

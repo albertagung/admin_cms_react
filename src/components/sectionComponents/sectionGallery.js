@@ -27,7 +27,7 @@ class SectionGallery extends Component {
 	componentWillMount = () => {
 		setTimeout(() => {
 			this.getImages()
-		}, 2000)
+		}, 1000)
 	}
 
 	handleShow = () => {

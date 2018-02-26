@@ -45,7 +45,12 @@ class ImageUploadMultiple extends Component {
     req.end()
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    console.log(nextProps)
+  }
+
   render () {
+    console.log(this.props.sendEditImageAction)
     const imgStyle = {
       maxHeight: '300px',
       maxWidth: '300px',
