@@ -24,6 +24,13 @@ export const getRemoveImage = (image) => {
   }
 }
 
+export const uploadImage = (image) => {
+  return {
+    type: 'FETCH_UPLOAD_IMAGE',
+    image: image
+  }
+}
+
 export const fetchImage = () => {
   return (dispatch) => {
     return Axios.get(imageUrl).then((response) => {
@@ -35,10 +42,17 @@ export const fetchImage = () => {
   }
 }
 
-export const requestRemoveImage = (imageKey) => {
+export const requestUploadImage = (image) => {
+  return (dispatch) => {
+    return dispatch(uploadImage(image))
+  }
+}
+
+export const requestRemoveImage = (imageKey, imageTitle) => {
   return (dispatch) => {
     return Axios.delete(`${removeImageUrl}/${imageKey}`).then((response) => {
-      Axios.get(imageUrl).then((responseGet) => {
+      Axios.get(`${imageUrl}`).then((responseGet) => {
+        console.log(responseGet.data)
         dispatch(getImages(responseGet.data))
       })
       .catch((err) => {

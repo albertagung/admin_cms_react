@@ -10,7 +10,7 @@ import { RIEInput, RIETextArea } from 'riek'
 import { Popup, Form, Dimmer, Loader, Segment } from 'semantic-ui-react'
 
 // Image Upload Multiple Component
-import ImageUploadMultiple from '../imageUploadMultiple'
+import ImageEditUploadMultiple from '../imageEditUploadMultiple'
 
 class MainPageAbout extends Component {
 	constructor (props) {
@@ -22,21 +22,39 @@ class MainPageAbout extends Component {
 				visionTitle: '',
 				visionContent: '',
 				missionTitle: '',
-				missionContent: ''
+				missionContent: '',
+				images: []
 			},
-			isLoaded: false
+			isLoaded: false,
+			imageClicked: ''
 		}
 	}
 
 
-	getImages = async () => {
-		await this.props.fetchImageTitle('mainPageAbout')
-		let objLoaded = {
-			isLoaded: true
+	getImages = () => {
+		if (this.state.changingInput.images.length === 0) {
+			this.props.images.forEach((dataImages) => {
+				if (dataImages.imageTitle === 'mainPageAbout') {
+					this.state.changingInput.images.push(dataImages)
+				}
+			})
+		} else {
+			console.log('masuk else')
+			let objImages = {
+				images: this.props.images
+			}
+			let newObjChangingInput = Object.assign(this.state.changingInput, objImages)
+			this.setState({
+				changingInput: newObjChangingInput
+			})
 		}
-		let objState = Object.assign(this.state, objLoaded)
+		let objState = {
+			isLoaded: true,
+			imageClicked: this.state.changingInput.images.length !== 0 ? this.state.changingInput.images[0].imageKey : ''
+		}
+		let newObjState = Object.assign(this.state, objState)
 		this.setState({
-			objState
+			newObjState
 		})
 	}
 
@@ -78,9 +96,9 @@ class MainPageAbout extends Component {
 
 	componentWillMount = () => {
 		setTimeout( async () => {
-			await this.getContent()
-			this.getImages()
-		}, 2000)
+			await this.getImages()
+			this.getContent()
+		}, 3000)
 	}
 
 	handleFormChange = (task) => {
@@ -94,8 +112,8 @@ class MainPageAbout extends Component {
 		this.props.posts.forEach((dataPosts) => {
 				if (dataPosts.section === 'aboutUs') {
 					let objAboutUs = {
-						title: this.state.changingInput.aboutUsTitle || 'Title',
-						content: this.state.changingInput.aboutUsContent || 'Content'
+						title: this.state.changingInput.aboutUsTitle,
+						content: this.state.changingInput.aboutUsContent
 					}
 					let newObjChangingInput = Object.assign(dataPosts, objAboutUs)
 					this.props.requestEditPost(newObjChangingInput)
@@ -118,12 +136,28 @@ class MainPageAbout extends Component {
 		)
 	}
 
-	handleSubmit = async () => {
-		await this.getMatchWithRedux()
-		alert('Saved')
+	carouselIndicatorClick = (imageKey) => {
+		let objCarouselIndicator = {
+			imageClicked: imageKey
+		}
+		let newObjState = Object.assign(this.state, objCarouselIndicator)
+		this.setState({
+			newObjState
+		})
+	}
+
+	getConfirmationFromUploader = (confirmation) => {
+		let objConfirmation = {
+			isLoaded: confirmation
+		}
+		let newObjState = Object.assign(this.state, objConfirmation)
+		this.setState({
+			newObjState
+		})
 	}
 
 	render () {
+		console.log(this.state.changingInput.images)
 		if (this.state.isLoaded === false) {
 			return (
 				<Segment>
@@ -198,18 +232,35 @@ class MainPageAbout extends Component {
 	              <div data-wow-duration="2s" data-wow-delay=".2s" className="col-lg-5 col-lg-offset-1 wow zoomIn">
 	                <div id="carousel-light2" className="carousel slide carousel-fade">
 	                  <ol className="carousel-indicators">
-	                    <li data-target="#carousel-light2" data-slide-to="0" className="active"></li>
-	                    <li data-target="#carousel-light2" data-slide-to="1"></li>
+	                  	{this.state.changingInput.images.map((dataImages, index) => {
+	                  		return (
+	                  			<li 
+	                  				data-target="#carousel-light2" 
+	                  				data-slide-to={index}  
+	                  				onClick={() => this.carouselIndicatorClick(dataImages.imageKey)} 
+	                  				key={dataImages.imageKey}>
+	                  			</li>
+	                  		)
+	                  	})}
 	                  </ol>
 	                  <div role="listbox" className="carousel-inner">
-	                  	{this.props.images.map((dataImages) => {
+	                  	{this.state.changingInput.images.map((dataImages) => {
 	                  		return (
-	                  			<div className="item active" key={dataImages.imageKey}>
+	                  			<div 
+	                  				className={`item ${this.state.imageClicked === dataImages.imageKey ? 'active' : ''}`} 
+	                  				key={dataImages.imageKey}
+	                  			>
 				                    <Popup
 													    trigger={<img src={dataImages.url} alt="" className="img-responsive center-block" />}
 													    content={
 													    	<Form>
-													    		<ImageUploadMultiple sendImageDataToUploader={'mainPageAbout'} sendEditImageAction={dataImages.imageKey} />
+													    		<ImageEditUploadMultiple 
+													    			sendImageDataToUploader={'mainPageAbout'}
+													    			sendImageKeyToUploader={dataImages.imageKey} 
+													    			sendEditImageAction={this.props.requestRemoveImage}
+													    			sendFetchAfterUpdateImage={this.getImages}
+													    			sendConfirmation={this.getConfirmationFromUploader}
+													    		/>
 													    	</Form>
 													    }
 													    on='click'
@@ -229,28 +280,13 @@ class MainPageAbout extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-  if (state.postList.posts !== undefined) {
-    return {
-      posts: state.postList.posts,
-      images: state.imageList.images
-    }
-  } else {
-    return {
-      posts: [],
-      images: state.imageList.images
-    }
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPosts: post => dispatch (postListAction.getPosts(post)),
     requestEditPost: editedPost => dispatch (postListAction.requestEditPost(editedPost)),
     // Get images based on product id
     fetchImageTitle: imageTitle => dispatch (imageListAction.fetchImageTitle(imageTitle)),
-    requestRemoveImage: imageKey => dispatch (imageListAction.requestRemoveImage(imageKey))
+    requestRemoveImage: (imageKey, imageTitle) => dispatch (imageListAction.requestRemoveImage(imageKey, imageTitle))
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (MainPageAbout)
+export default connect (null, mapDispatchToProps) (MainPageAbout)

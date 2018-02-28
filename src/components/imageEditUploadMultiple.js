@@ -25,7 +25,6 @@ class ImageUploadMultiple extends Component {
   }
 
   onDrop = (files) => {
-    console.log(files)
     this.setState(
       {
         file: files
@@ -33,21 +32,21 @@ class ImageUploadMultiple extends Component {
     )
   }
 
-  handleUpload = async () => {
-    const req = request.post('http://localhost:3025/image_multiple/upload')
-    let images = this.state.file
-    // Adding extra object to send the imageData
-    req.field('imageData', JSON.stringify(this.state))  
-    // Attaching image buffer file    
-    await images.forEach((dataImages) => {
-      req.attach('field_name', dataImages)
+  handleUpload = () => {
+    return new Promise ( async (resolve, reject) => {
+      console.log('masuk upload')
+      const req = request.post('http://localhost:3025/image_multiple/upload')
+      let images = this.state.file
+      // Adding extra object to send the imageData
+      req.field('imageData', JSON.stringify(this.state))  
+      // Attaching image buffer file    
+      await images.forEach((dataImages) => {
+        resolve(req.attach('field_name', dataImages))
+      })
     })
-    alert('finished uploading file!')
-    req.end()
   }
 
   render () {
-    console.log(this.props.sendEditImageAction)
     const imgStyle = {
       maxHeight: '300px',
       maxWidth: '300px',
@@ -127,7 +126,34 @@ class ImageUploadMultiple extends Component {
               )
             })}
           </Dropzone>
-          <Popup trigger={<Button basic color="green" onClick={this.handleUpload} style={buttonStyle}>Upload now!</Button>} content='Click when you are ready to upload' position='bottom center' />
+          <Popup 
+            trigger={
+              <Button 
+                basic color="green" 
+                onClick={ async () => {
+                    await this.props.sendConfirmation(false)
+                    await this.handleUpload()
+                    .then(() => {
+                      return new Promise ((resolve, reject) => {
+                        resolve(this.props.sendEditImageAction(this.state.imageKey, this.state.title))
+                      })
+                      .then(() => {
+                        return new Promise ((resolve, reject) => {
+                          setTimeout(() => {
+                            resolve(this.props.sendFetchAfterUpdateImage())
+                          }, 3000)
+                        })
+                        .then(() => {
+                          this.props.sendConfirmation(true)
+                        })
+                      })
+                    }) 
+                  }
+                } 
+                style={buttonStyle}>Edit Now!
+              </Button>
+            } 
+            content='Click when you are ready to upload' position='bottom center' />
         </div>
       )
     }

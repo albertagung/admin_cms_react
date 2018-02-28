@@ -352,6 +352,9 @@ class ProductEditorModal extends Component {
     const { visibleOptionForm } = this.state
     const { visibleVariant } = this.state
     const { images } = this.state.newProduct
+    const modalStyle = {
+      height: 'auto'
+    }
     if (!this.state.doneLoadImage) {
       return (
         <div>
@@ -371,6 +374,7 @@ class ProductEditorModal extends Component {
       return (
         <div>
           <Modal
+          style={modalStyle}
             trigger={<Button 
             basic 
             color="green" 

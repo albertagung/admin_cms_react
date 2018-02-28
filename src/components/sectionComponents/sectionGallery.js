@@ -20,7 +20,7 @@ class SectionGallery extends Component {
 	
 	getImages = async () => {
 		// Fetching image by 'sectionGallery' title
-		await this.props.fetchImageTitle('sectionGallery')
+		await this.props.fetchImageTitle('mainPageAbout')
 		this.setState({isLoaded: true})
 	}
 
@@ -92,7 +92,7 @@ class SectionGallery extends Component {
 					</Segment>
 					<Segment>
 						<Form>
-							<ImageUploadMultiple sendImageDataToUploader={'sectionGallery'} />
+							<ImageUploadMultiple sendImageDataToUploader={'mainPageAbout'} />
 						</Form>
 					</Segment>
 				</div>

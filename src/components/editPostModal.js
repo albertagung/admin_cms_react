@@ -41,8 +41,13 @@ class EditPostModal extends Component {
   }
 
   render () {
+    const modalStyle = {
+      height: 'auto'
+    }
     return (
       <Modal
+        className='scrolling'
+        style={modalStyle}
         trigger={<Button basic color="green" onClick={this.handleOpen}>Edit Post</Button>}
         open={this.state.modalOpen}
         onClose={this.handleClose}
@@ -50,7 +55,7 @@ class EditPostModal extends Component {
         <Modal.Header>
           <Header>Edit Post</Header>
         </Modal.Header>
-        <Modal.Content>
+        <Modal.Content style={{'height': '100%'}}>
           <Modal.Description>
             <EditPost ref='edit' receivePostIdFromParent={this.props.postIdFromParent} someFunction={this.closeModal} />
           </Modal.Description>
