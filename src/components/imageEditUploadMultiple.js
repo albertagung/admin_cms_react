@@ -34,7 +34,6 @@ class ImageUploadMultiple extends Component {
 
   handleUpload = () => {
     return new Promise ( async (resolve, reject) => {
-      console.log('masuk upload')
       const req = request.post('http://localhost:3025/image_multiple/upload')
       let images = this.state.file
       // Adding extra object to send the imageData

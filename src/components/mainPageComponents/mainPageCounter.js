@@ -7,7 +7,7 @@ import * as imageListAction from '../../actions/imageAction'
 import { RIEInput, RIETextArea } from 'riek'
 
 // React Semantic UI
-import { Dimmer, Loader, Segment } from 'semantic-ui-react'
+import { Dimmer, Loader, Segment, Popup } from 'semantic-ui-react'
 
 // Image Upload Multiple Component
 import ImageEditUploadMultiple from '../imageEditUploadMultiple'
@@ -91,7 +91,7 @@ class MainPageCounter extends Component {
 	componentWillMount = () => {
 		setTimeout(() => {
 			this.getContent()
-		}, 2000)
+		}, 3000)
 	}
 
 	handleFormChange = (task) => {
@@ -156,14 +156,15 @@ class MainPageCounter extends Component {
         <div className="container text-center">
           <div className="row">
             <div className="col-sm-3">
-              <span 
-              	data-min="0" 
-              	data-max='92928' 
-              	data-delay="5" 
-              	data-increment="100" 
-              	className="numscroller"
-              >
-              2000
+              <span data-min="0" data-delay="5" data-increment="10" className="numscroller">
+              <RIEInput
+  							value={(() => {
+    							return this.state.changingInput.column1Title !== '' ? this.state.changingInput.column1Title : 0
+    						})()}
+    						change={this.handleFormChange}
+    						propName='column1Title'
+    						editProps={{'style': riekStyle}}
+      				/>
               </span>
               <h5 className="no-pad">
               	<RIEInput
@@ -177,7 +178,16 @@ class MainPageCounter extends Component {
               </h5>
             </div>
             <div className="col-sm-3">
-              <span data-min="0" data-max="8757" data-delay="5" data-increment="5" className="numscroller">0</span>
+              <span data-min="0" data-delay="5" data-increment="5" className="numscroller">
+	              <RIEInput
+	  							value={(() => {
+	    							return this.state.changingInput.column2Title !== '' ? this.state.changingInput.column2Title : 0
+	    						})()}
+	    						change={this.handleFormChange}
+	    						propName='column2Title'
+	    						editProps={{'style': riekStyle}}
+	      				/>
+              </span>
               <h5 className="no-pad">
               	<RIEInput
     							value={(() => {
@@ -190,7 +200,16 @@ class MainPageCounter extends Component {
               </h5>
             </div>
             <div className="col-sm-3">
-              <span data-min="0" data-max="50" data-delay="5" data-increment="1" className="numscroller">0</span>
+              <span data-min="0" data-delay="5" data-increment="1" className="numscroller">
+              	<RIEInput
+	  							value={(() => {
+	    							return this.state.changingInput.column3Title !== '' ? this.state.changingInput.column3Title : 0
+	    						})()}
+	    						change={this.handleFormChange}
+	    						propName='column3Title'
+	    						editProps={{'style': riekStyle}}
+	      				/>
+              </span>
               <h5 className="no-pad">
               	<RIEInput
     							value={(() => {
@@ -203,7 +222,16 @@ class MainPageCounter extends Component {
               </h5>
             </div>
             <div className="col-sm-3">
-              <span data-min="0" data-max="9678" data-delay="5" data-increment="10" className="numscroller">0</span>
+              <span data-min="0" data-delay="5" data-increment="10" className="numscroller">
+              	<RIEInput
+	  							value={(() => {
+	    							return this.state.changingInput.column4Title !== '' ? this.state.changingInput.column4Title : 0
+	    						})()}
+	    						change={this.handleFormChange}
+	    						propName='column4Title'
+	    						editProps={{'style': riekStyle}}
+	      				/>
+              </span>
               <h5 className="no-pad">
               	<RIEInput
     							value={(() => {
@@ -222,28 +250,10 @@ class MainPageCounter extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-  if (state.postList.posts !== undefined) {
-    return {
-      posts: state.postList.posts,
-      images: state.imageList.images
-    }
-  } else {
-    return {
-      posts: [],
-      images: state.imageList.images
-    }
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPosts: post => dispatch (postListAction.getPosts(post)),
     requestEditPost: editedPost => dispatch (postListAction.requestEditPost(editedPost)),
-    // Get images based on product id
-    fetchImageTitle: imageTitle => dispatch (imageListAction.fetchImageTitle(imageTitle)),
-    requestRemoveImage: (imageKey, imageTitle) => dispatch (imageListAction.requestRemoveImage(imageKey, imageTitle))
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (MainPageCounter)
+export default connect (null, mapDispatchToProps) (MainPageCounter)

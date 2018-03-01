@@ -157,7 +157,6 @@ class MainPageAbout extends Component {
 	}
 
 	render () {
-		console.log(this.state.changingInput.images)
 		if (this.state.isLoaded === false) {
 			return (
 				<Segment>

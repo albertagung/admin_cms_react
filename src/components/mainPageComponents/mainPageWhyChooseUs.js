@@ -290,28 +290,10 @@ class MainPageWhyChooseUs extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-  if (state.postList.posts !== undefined) {
-    return {
-      posts: state.postList.posts,
-      images: state.imageList.images
-    }
-  } else {
-    return {
-      posts: [],
-      images: state.imageList.images
-    }
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPosts: post => dispatch (postListAction.getPosts(post)),
-    requestEditPost: editedPost => dispatch (postListAction.requestEditPost(editedPost)),
-    // Get images based on product id
-    fetchImageTitle: imageTitle => dispatch (imageListAction.fetchImageTitle(imageTitle)),
-    requestRemoveImage: (imageKey, imageTitle) => dispatch (imageListAction.requestRemoveImage(imageKey, imageTitle))
+    requestEditPost: editedPost => dispatch (postListAction.requestEditPost(editedPost))
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps) (MainPageWhyChooseUs)
+export default connect (null, mapDispatchToProps) (MainPageWhyChooseUs)

@@ -13,12 +13,11 @@ import MainPageCounter from './mainPageCounter'
 class MainPage extends Component {
 
 	render () {
-		console.log(this.props.images)
 		return (
 			<div>
 				<MainPageAbout posts={this.props.posts} images={this.props.images}/>
-				<MainPageWhyChooseUs />
-				<MainPageCounter />
+				<MainPageWhyChooseUs posts={this.props.posts}/>
+				<MainPageCounter posts={this.props.posts}/>
 			</div>
 		)
 	}

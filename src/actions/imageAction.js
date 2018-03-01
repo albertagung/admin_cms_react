@@ -52,7 +52,6 @@ export const requestRemoveImage = (imageKey, imageTitle) => {
   return (dispatch) => {
     return Axios.delete(`${removeImageUrl}/${imageKey}`).then((response) => {
       Axios.get(`${imageUrl}`).then((responseGet) => {
-        console.log(responseGet.data)
         dispatch(getImages(responseGet.data))
       })
       .catch((err) => {
